@@ -19,10 +19,12 @@ class _SplashState extends State<Splash> {
     Future.delayed(const Duration(seconds: 1), () {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(
-          builder: (context) => const Login(
+        PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) => const Login(
             backgroundImage: 'assets/back.png',
           ),
+          transitionDuration:
+              Duration(seconds: 0), // Set duration to zero for no animation
         ),
       );
     });
@@ -30,13 +32,13 @@ class _SplashState extends State<Splash> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/back.png'),
-            fit: BoxFit.cover,
-          ),
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height,
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('assets/back.png'),
+          fit: BoxFit.cover,
         ),
       ),
     );
