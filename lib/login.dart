@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pi/register.dart';
 
 class Login extends StatefulWidget {
   final String backgroundImage;
@@ -6,6 +7,7 @@ class Login extends StatefulWidget {
   const Login({required this.backgroundImage});
 
   @override
+  // ignore: library_private_types_in_public_api
   _LoginState createState() => _LoginState();
 }
 
@@ -119,7 +121,14 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                         ),
                         ElevatedButton(
                           onPressed: () {
-                            // Perform registration logic here
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => Register(
+                                  backgroundImage: widget.backgroundImage,
+                                ),
+                              ),
+                            );
                           },
                           style: ElevatedButton.styleFrom(
                             primary: Colors.blue,
