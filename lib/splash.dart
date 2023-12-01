@@ -15,17 +15,17 @@ class _SplashState extends State<Splash> {
     _navigateToLogin();
   }
 
-  _navigateToLogin() async {
-    await Future.delayed(const Duration(seconds: 1));
-
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => Login(
-          backgroundImage: 'assets/back.png',
+  _navigateToLogin() {
+    Future.delayed(const Duration(seconds: 1), () {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const Login(
+            backgroundImage: 'assets/back.png',
+          ),
         ),
-      ),
-    );
+      );
+    });
   }
 
   @override
