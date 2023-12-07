@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:pi/register.dart';
 
 class Login extends StatefulWidget {
@@ -14,6 +15,34 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<Offset> _offsetAnimation;
+
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  Future<void> _performLogin() async {
+    // Criar o objeto FormData
+    final formData = {
+      'email': _emailController.text,
+      'senha': _passwordController.text,
+      'grupo': 'cliente', // ou 'funcionario', dependendo do seu caso
+    };
+
+    // Enviar dados para o servidor Flask
+    final response = await http.post(
+      Uri.parse(
+          'http://127.0.0.1:5000/login'), // replace with your actual endpoint
+      body: formData,
+    );
+
+    // Tratar a resposta do servidor
+    if (response.statusCode == 200) {
+      // Login bem-sucedido
+      print('Login bem-sucedido: ${response.body}');
+    } else {
+      // Algo deu errado
+      print('Falha no login. Status code: ${response.statusCode}');
+    }
+  }
 
   @override
   void initState() {
@@ -83,7 +112,11 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                         prefixIcon: Icon(Icons.email),
                         border: OutlineInputBorder(),
                       ),
-                      onChanged: (String value) {},
+                      onChanged: (String value) {
+                        setState(() {
+                          _emailController.text = value;
+                        });
+                      },
                       validator: (value) {
                         return value!.isEmpty ? "Email is empty" : null;
                       },
@@ -97,7 +130,11 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                         prefixIcon: Icon(Icons.lock),
                         border: OutlineInputBorder(),
                       ),
-                      onChanged: (String value) {},
+                      onChanged: (String value) {
+                        setState(() {
+                          _passwordController.text = value;
+                        });
+                      },
                       validator: (value) {
                         return value!.isEmpty ? "Password is empty" : null;
                       },
@@ -108,7 +145,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                       children: [
                         ElevatedButton(
                           onPressed: () {
-                            // Perform login logic here
+                            _performLogin();
                           },
                           style: ElevatedButton.styleFrom(
                             primary: Colors.red,
